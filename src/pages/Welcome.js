@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { Typography, TextField, Button, Box } from '@material-ui/core';
 
-const Welcome = () => {
+export default function Welcome() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -45,6 +45,4 @@ const Welcome = () => {
       </Box>
     </Box>
   );
-};
-
-export default Welcome;
+}

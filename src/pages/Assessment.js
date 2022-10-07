@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   KeyboardDatePicker,
@@ -15,7 +16,7 @@ import {
   MenuItem,
 } from '@material-ui/core';
 
-const Assessment = () => {
+export default function Assessment() {
   const [payments, setPayments] = useState('annualy');
   const [withdrawnAmount, setWithdrawnAmount] = useState('');
   const [selectedDate, handleDateChange] = useState(new Date());
@@ -27,6 +28,7 @@ const Assessment = () => {
   const handleWithdrawnAmount = (e) => {
     setWithdrawnAmount(e.target.value.replace(/\D/g, ''));
   };
+  const history = useHistory();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -36,6 +38,7 @@ const Assessment = () => {
       withdrawnAmount: data.get('withdrawnAmount'),
       date: data.get('date'),
     });
+    history.push('/summary');
   };
 
   return (
@@ -92,6 +95,4 @@ const Assessment = () => {
       </Box>
     </Box>
   );
-};
-
-export default Assessment;
+}
