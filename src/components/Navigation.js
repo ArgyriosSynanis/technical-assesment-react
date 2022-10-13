@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Box, Toolbar, Typography, Button, AppBar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 

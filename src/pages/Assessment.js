@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import DateFnsUtils from '@date-io/date-fns';
+import { useSnackbar } from 'notistack';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -17,27 +17,44 @@ import {
 } from '@material-ui/core';
 
 export default function Assessment() {
-  const [payments, setPayments] = useState('annualy');
-  const [withdrawnAmount, setWithdrawnAmount] = useState('');
-  const [selectedDate, handleDateChange] = useState(new Date());
-
-  const handlePayment = (e) => {
-    setPayments(e.target.value);
-  };
-
-  const handleWithdrawnAmount = (e) => {
-    setWithdrawnAmount(e.target.value.replace(/\D/g, ''));
-  };
+  const [frequency, setFrequency] = useState('annualy');
+  const [amount, setAmount] = useState('');
+  const [startDate, setStartDate] = useState(new Date());
+  const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
+
+  const handleFrequency = (e) => {
+    setFrequency(e.target.value);
+  };
+
+  const handleAmount = (e) => {
+    setAmount(e.target.value.replace(/\D/g, ''));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (amount.length === 0) {
+      return enqueueSnackbar('Please type in a Widthdrawn amount(&)', {
+        variant: 'error',
+      });
+    }
+
     const data = new FormData(event.currentTarget);
+    const summaryData = {
+      frequency: data.get('frequency'),
+      amount: data.get('amount'),
+      startDate: data.get('startDate'),
+    };
+
+    localStorage.setItem('data', JSON.stringify(summaryData));
+
     console.log({
-      payments: data.get('payments'),
-      withdrawnAmount: data.get('withdrawnAmount'),
-      date: data.get('date'),
+      frequency: data.get('frequency'),
+      amount: data.get('amount'),
+      startDate: data.get('startDate'),
     });
+
     history.push('/summary');
   };
 
@@ -51,11 +68,11 @@ export default function Assessment() {
       <Box component="form" onSubmit={handleSubmit} noValidate>
         <FormControl fullWidth>
           <Select
-            name="payments"
-            labelId="payments"
-            id="payments"
-            value={payments}
-            onChange={handlePayment}
+            name="frequency"
+            labelId="frequency"
+            id="frequency"
+            value={frequency}
+            onChange={handleFrequency}
           >
             <MenuItem value={'weekly'}>Weekly</MenuItem>
             <MenuItem value={'monthly'}>Monthly</MenuItem>
@@ -67,11 +84,11 @@ export default function Assessment() {
             variant="outlined"
             margin="normal"
             required
-            name="withdrawnAmount"
+            name="amount"
             label="Withdrawn amount(£)"
-            id="withdrawnAmount"
-            value={withdrawnAmount}
-            onChange={handleWithdrawnAmount}
+            id="amount"
+            value={amount}
+            onChange={handleAmount}
           />
         </FormControl>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -84,9 +101,9 @@ export default function Assessment() {
             }
             maxDateMessage="Date should be within the next year"
             format="dd/MM/yyyy"
-            name="date"
-            value={selectedDate}
-            onChange={(date) => handleDateChange(date)}
+            name="startDate"
+            value={startDate}
+            onChange={(date) => setStartDate(date)}
           />
         </MuiPickersUtilsProvider>
         <Button type="submit" fullWidth variant="outlined" size="large">
