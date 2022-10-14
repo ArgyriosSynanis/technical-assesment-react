@@ -1,22 +1,49 @@
-import React from 'react';
-import { Box, Toolbar, Typography, Button, AppBar } from '@material-ui/core';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Toolbar, Button, AppBar, Box, makeStyles } from '@material-ui/core';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AuthContext from '../context/auth/AuthContext';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  spacer: {
+    flexGrow: 1,
+  },
+}));
 
 export default function ButtonAppBar() {
+  const classes = useStyles();
   const history = useHistory();
+  const authCtx = useContext(AuthContext);
+
+  const signOut = () => {
+    authCtx.setLogin(false);
+    history.push('/welcome');
+  };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button onClick={history.goBack} variant="outlined">
-            Back
-          </Button>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Navigation
-          </Typography>
+        <Toolbar>
+          {authCtx.isLoggedIn && (
+            <>
+              <Button onClick={history.goBack}>
+                <ArrowBackIcon />
+              </Button>
+              <Box className={classes.spacer}></Box>
+              <Button onClick={signOut}>
+                <ExitToAppIcon />
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
-    </Box>
+    </div>
   );
 }

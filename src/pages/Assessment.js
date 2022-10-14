@@ -30,7 +30,7 @@ export default function Assessment() {
   const handleAmount = (e) => {
     setAmount(e.target.value.replace(/\D/g, ''));
   };
-
+  
   const handleSubmit = (event) => {
     event.preventDefault();
 

@@ -6,41 +6,41 @@ import Assessment from './pages/Assessment';
 import Summary from './pages/Summary';
 import Navigation from './components/Navigation';
 import { Container, Box } from '@material-ui/core/';
-// import AuthContext from './context/auth/AuthContext';
+import AuthContext from './context/auth/AuthContext';
 
 export default function App() {
-  // const ctx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
 
   return (
     <Box>
       <Navigation />
       <Container component="main" maxWidth="md">
         <Switch>
-          {/* {!ctx.isLoggedIn && ( */}
-          <Route path="/" exact>
-            <Welcome />
-          </Route>
-          {/* )}
-          {!ctx.isLoggedIn && ( */}
-          {/* <Route path="*">
-            <Redirect to="/" />
-          </Route> */}
-          {/* )}
-          {ctx.isLoggedIn && ( */}
-          <Route path="/assessment" exact>
-            <Assessment />
-          </Route>
-          {/* )}
-          {ctx.isLoggedIn && ( */}
-          <Route path="/summary" exact>
-            <Summary />
-          </Route>
-          {/* )}
-          {ctx.isLoggedIn && ( */}
-          <Route path="*">
-            <NotFound />
-          </Route>
-          {/* )} */}
+          {!authCtx.isLoggedIn && (
+            <Route path="/" exact>
+              <Welcome />
+            </Route>
+          )}
+          {!authCtx.isLoggedIn && (
+            <Route path="*">
+              <Redirect to="/" />
+            </Route>
+          )}
+          {authCtx.isLoggedIn && (
+            <Route path="/assessment" exact>
+              <Assessment />
+            </Route>
+          )}
+          {authCtx.isLoggedIn && (
+            <Route path="/summary" exact>
+              <Summary />
+            </Route>
+          )}
+          {authCtx.isLoggedIn && (
+            <Route path="*">
+              <NotFound />
+            </Route>
+          )}
         </Switch>
       </Container>
     </Box>

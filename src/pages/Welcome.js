@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { loginMock } from '../api';
 import { Typography, TextField, Button, Box } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
-
 import AuthContext from '../context/auth/AuthContext';
 
 export default function Welcome() {
