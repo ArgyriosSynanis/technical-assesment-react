@@ -19,6 +19,8 @@ import {
   Margin,
   Tooltip,
   Grid,
+  ValueAxis,
+  Title,
 } from 'devextreme-react/chart';
 
 const ColorButton = styled(Button)(() => ({
@@ -49,8 +51,8 @@ export default function Summary() {
     try {
       const result = await acceptWithdrawalMock(authCtx.authToken);
       if (result) {
-        history.push('/submitted', {});
         setIsLoading(false);
+        history.push('/submitted', {});
       }
     } catch (error) {
       setIsLoading(false);
@@ -73,30 +75,34 @@ export default function Summary() {
         {`You have selected ${vowel} ${frequency} withdrawal of £${amount} starting on
         ${formatedDated}.`}
       </Typography>
-      <>
-        <Chart palette="Violet" dataSource={graphData}>
-          <CommonSeriesSettings argumentField="country" />
-
-          {graphData.map((item) => (
-            <Series key={item.age} valueField={item.age} name={item.age} />
-          ))}
-
+      <React.Fragment>
+        <Chart palette="Soft Blue" dataSource={graphData}>
+          <CommonSeriesSettings argumentField="age" type="line" />
+          <Series
+            key="Remaining Funds"
+            valueField="fundValue"
+            name="Remaining Funds"
+          />
           <Margin bottom={20} />
+          <ValueAxis pane="top">
+            <Grid visible={true} />
+            <Title text="Remaining funds" />
+          </ValueAxis>
           <ArgumentAxis
             valueMarginsEnabled={false}
             discreteAxisDivisionMode="crossLabels"
           >
             <Grid visible={true} />
+            <Title text="Age" />
           </ArgumentAxis>
           <Legend
             verticalAlignment="bottom"
             horizontalAlignment="center"
             itemTextPosition="bottom"
           />
-
           <Tooltip enabled={true} />
         </Chart>
-      </>
+      </React.Fragment>
       <ColorButton onClick={handleClick} variant="contained">
         {!isLoading ? 'SUBMIT WITHDRAWN' : <CircularProgress />}
       </ColorButton>

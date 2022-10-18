@@ -43,11 +43,11 @@ export default function Assessment() {
     try {
       const result = await evaluationApiMock(frequency, amount, startDate);
       if (result) {
+        setIsLoading(false);
         history.push('/summary', {
           ...result,
           form,
         });
-        setIsLoading(false);
       }
     } catch (error) {
       setIsLoading(false);
@@ -74,6 +74,14 @@ export default function Assessment() {
 
     if (!/^[0-9]+$/.test(form.amount)) {
       return enqueueSnackbar('Widthdrawn amount must be a number', {
+        variant: 'error',
+      });
+    }
+    if (
+      Date.parse(form.startDate) >
+      Date.parse(new Date(new Date().setFullYear(new Date().getFullYear() + 1)))
+    ) {
+      return enqueueSnackbar('Date should be within the next year', {
         variant: 'error',
       });
     }

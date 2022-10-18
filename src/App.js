@@ -9,44 +9,52 @@ import Navigation from './components/Navigation';
 import { Container, Box } from '@material-ui/core/';
 import AuthContext from './context/auth/AuthContext';
 
-export default function App() {
-  const authCtx = useContext(AuthContext);
+function PrivateRoute({ children, ...rest }) {
+  let authCtx = useContext(AuthContext);
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        authCtx.auth.isLoggedIn ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/welcome',
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
+export default function App() {
   return (
     <Box>
       <Navigation />
       <Container component="main" maxWidth="md">
         <Switch>
-          {!authCtx.isLoggedIn && (
-            <Route path="/" exact>
-              <Welcome />
-            </Route>
-          )}
-          {!authCtx.isLoggedIn && (
-            <Route path="*">
-              <Redirect to="/" />
-            </Route>
-          )}
-          {authCtx.isLoggedIn && (
-            <Route path="/assessment" exact>
-              <Assessment />
-            </Route>
-          )}
-          {authCtx.isLoggedIn && (
-            <Route path="/summary" exact>
-              <Summary />
-            </Route>
-          )}
-          {authCtx.isLoggedIn && (
-            <Route path="/submitted" exact>
-              <Submitted />
-            </Route>
-          )}
-          {authCtx.isLoggedIn && (
-            <Route path="*">
-              <NotFound />
-            </Route>
-          )}
+          <Route path="/welcome" exact>
+            <Welcome />
+          </Route>
+
+          <PrivateRoute path="/assessment">
+            <Assessment />
+          </PrivateRoute>
+
+          <PrivateRoute path="/summary">
+            <Summary />
+          </PrivateRoute>
+
+          <PrivateRoute path="/submitted">
+            <Submitted />
+          </PrivateRoute>
+
+          <Route path="*">
+            <NotFound />
+          </Route>
         </Switch>
       </Container>
     </Box>

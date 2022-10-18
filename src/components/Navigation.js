@@ -23,8 +23,7 @@ export default function ButtonAppBar() {
   const authCtx = useContext(AuthContext);
 
   const signOut = () => {
-    authCtx.setLogin(false);
-    authCtx.setToken('');
+    authCtx.setLogin(false, null);
     history.push('/welcome');
   };
 
@@ -32,7 +31,7 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          {authCtx.isLoggedIn && (
+          {authCtx.auth.isLoggedIn && (
             <>
               <Button onClick={history.goBack}>
                 <ArrowBackIcon />

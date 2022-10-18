@@ -19,20 +19,19 @@ export default function Welcome() {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
-  const loginToken = async ({ username, password }) => {
+  const loginToken = async () => {
     setIsLoading(true);
     try {
       const result = await loginMock(enterUsername, enterPassword);
       if (result) {
-        authCtx.setLogin(true);
-        authCtx.setToken(result.token);
+        authCtx.setLogin(true, result.token);
         enqueueSnackbar('Successfully logged in', {
           variant: 'success',
         });
+        setIsLoading(false);
         history.push('/assessment', {
           ...result,
         });
-        setIsLoading(false);
       }
     } catch (error) {
       setIsLoading(false);

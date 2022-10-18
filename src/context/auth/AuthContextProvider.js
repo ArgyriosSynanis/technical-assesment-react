@@ -2,24 +2,20 @@ import React, { useCallback, useState } from 'react';
 import AuthContext from './AuthContext';
 
 const AuthContextProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [authToken, setAuthToken] = useState('');
+  const [auth, setAuth] = useState({
+    isLoggedIn: false,
+    authToken: null,
+  });
 
-  const setLogin = useCallback((boolean) => {
-    setIsLoggedIn(boolean);
-  }, []);
-
-  const setToken = useCallback((string) => {
-    setAuthToken(string);
+  const setLogin = useCallback((isLoggedIn, authToken) => {
+    setAuth((prev) => ({ ...prev, isLoggedIn, authToken }));
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn,
+        auth,
         setLogin,
-        authToken,
-        setToken,
       }}
     >
       {children}
