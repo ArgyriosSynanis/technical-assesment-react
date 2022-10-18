@@ -3,17 +3,14 @@ import AuthContext from './AuthContext';
 
 const AuthContextProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const onLogin = () => {
-    setIsLoggedIn(true);
-  };
-
-  const onLogout = () => {
-    setIsLoggedIn(false);
-  };
+  const [authToken, setAuthToken] = useState('');
 
   const setLogin = useCallback((boolean) => {
     setIsLoggedIn(boolean);
+  }, []);
+
+  const setToken = useCallback((string) => {
+    setAuthToken(string);
   }, []);
 
   return (
@@ -21,8 +18,8 @@ const AuthContextProvider = ({ children }) => {
       value={{
         isLoggedIn,
         setLogin,
-        onLogin,
-        onLogout,
+        authToken,
+        setToken,
       }}
     >
       {children}

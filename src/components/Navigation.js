@@ -24,6 +24,7 @@ export default function ButtonAppBar() {
 
   const signOut = () => {
     authCtx.setLogin(false);
+    authCtx.setToken('');
     history.push('/welcome');
   };
 
