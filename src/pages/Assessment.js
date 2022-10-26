@@ -18,6 +18,7 @@ import {
   MenuItem,
   CircularProgress,
 } from '@material-ui/core';
+import AuthContext from '../context/auth/AuthContext';
 
 export default function Assessment() {
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +57,6 @@ export default function Assessment() {
       });
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
