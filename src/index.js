@@ -8,15 +8,13 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <AuthContextProvider>
-        <SnackbarProvider autoHideDuration={2000}>
-          <App />
-        </SnackbarProvider>
-      </AuthContextProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <AuthContextProvider>
+      <SnackbarProvider autoHideDuration={2000}>
+        <App />
+      </SnackbarProvider>
+    </AuthContextProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

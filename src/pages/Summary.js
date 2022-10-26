@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { acceptWithdrawalMock } from '../api';
 import { useSnackbar } from 'notistack';
-import AuthContext from '../context/auth/AuthContext';
+
 import {
   Typography,
   Box,
@@ -35,7 +35,6 @@ export default function Summary() {
   const location = useLocation();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const authCtx = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const graphData = location.state.illustration;
   const { frequency, amount, startDate } = location.state.form;
@@ -46,10 +45,10 @@ export default function Summary() {
   });
   const vowel = frequency === 'annualy' ? 'an' : 'a';
 
-  const submitWithdrawn = async (id) => {
+  const submitWithdrawn = async () => {
     setIsLoading(true);
     try {
-      const result = await acceptWithdrawalMock(authCtx.authToken);
+      const result = await acceptWithdrawalMock(location.state.id);
       if (result) {
         setIsLoading(false);
         history.push('/submitted', {});
@@ -65,7 +64,7 @@ export default function Summary() {
   const handleClick = (e) => {
     e.preventDefault();
 
-    submitWithdrawn(authCtx.authToken);
+    submitWithdrawn();
   };
 
   return (
@@ -75,7 +74,7 @@ export default function Summary() {
         {`You have selected ${vowel} ${frequency} withdrawal of £${amount} starting on
         ${formatedDated}.`}
       </Typography>
-      <React.Fragment>
+      <>
         <Chart palette="Soft Blue" dataSource={graphData}>
           <CommonSeriesSettings argumentField="age" type="line" />
           <Series
@@ -102,7 +101,7 @@ export default function Summary() {
           />
           <Tooltip enabled={true} />
         </Chart>
-      </React.Fragment>
+      </>
       <ColorButton onClick={handleClick} variant="contained">
         {!isLoading ? 'SUBMIT WITHDRAWN' : <CircularProgress />}
       </ColorButton>

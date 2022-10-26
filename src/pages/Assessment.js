@@ -56,7 +56,6 @@ export default function Assessment() {
       });
     }
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
