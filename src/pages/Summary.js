@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { acceptWithdrawalMock } from '../api';
 import { useSnackbar } from 'notistack';
-import AuthContext from '../context/auth/AuthContext';
+
 import {
   Typography,
   Box,
