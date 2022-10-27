@@ -15,7 +15,7 @@ Screen 2: The options can be to take a weekly, monthly or annual income of
           options will be needed for the next screen.
 
 Screen 3: On load, submit the selected option to the "evaluationApiMock" 
-          to recieve the data needed to display onto a chart. If the user 
+          to receive the data needed to display onto a chart. If the user 
           accepts the withdrawal, then submit the acceptance with the 
           "acceptWithdrawalMock" API function. (Hint: the chart uses the 
           devextreme package)

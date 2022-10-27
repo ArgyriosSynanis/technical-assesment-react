@@ -22,7 +22,7 @@ import {
 export default function Assessment() {
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
-    frequency: 'annualy',
+    frequency: 'annually',
     amount: '',
     startDate: new Date(),
   });
@@ -66,13 +66,13 @@ export default function Assessment() {
     });
 
     if (form.amount.length === 0) {
-      return enqueueSnackbar('Please type in a Widthdrawn amount(&)', {
+      return enqueueSnackbar('Please type in a Withdrawal amount(&)', {
         variant: 'error',
       });
     }
 
     if (!/^[0-9]+$/.test(form.amount)) {
-      return enqueueSnackbar('Widthdrawn amount must be a number', {
+      return enqueueSnackbar('Withdrawal amount must be a number', {
         variant: 'error',
       });
     }

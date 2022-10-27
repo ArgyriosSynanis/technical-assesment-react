@@ -7,9 +7,16 @@ import {
   Button,
   Box,
   CircularProgress,
+  makeStyles,
 } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import AuthContext from '../context/auth/AuthContext';
+
+const useStyles = makeStyles({
+  inputs: {
+    marginBottom: '1.5rem',
+  },
+});
 
 export default function Welcome() {
   const [enterUsername, setEnterUsername] = useState('');
@@ -52,7 +59,7 @@ export default function Welcome() {
 
     loginToken(enterUsername, enterPassword);
   };
-
+  const classes = useStyles();
   return (
     <Box>
       <Typography variant="h2">Welcome</Typography>
@@ -76,6 +83,7 @@ export default function Welcome() {
           margin="normal"
           required
           fullWidth
+          className={classes.inputs}
           name="password"
           label="Password"
           type="password"
